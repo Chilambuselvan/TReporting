@@ -39,13 +39,13 @@ shinyServer(function(input, output) {
   output$ShaftStats = renderPrint({summary(Newpoc$DIM_SHAFT_WIDTH_WW,Newpoc$DIM_SHAFT_DEPTH_WD)})
   ############ Tab 3 stats here
   output$mapKONE = renderLeaflet({
-    require(leaflet)
-    m=leaflet(x) %>%
-      addTiles() %>%
+    #require(leaflet)
+    Newpoc_sub=subset(Newpoc,!is.na(lat))
+    m=leaflet(Newpoc_sub) %>% addTiles() %>%
       #setView(lng=mean(x$lon),lat=mean(x$lat), zoom=3)%>%
-      addMarkers(clusterOptions=markerClusterOptions())%>%
+addCircleMarkers(data=Newpoc_sub,lng=~lon,lat=~lat,radius=5,clusterOptions=markerClusterOptions())
       #addCircles(popup= ~PLATFORM, radius=~(DIM_TRAVEL_HEIGHT_H/1000))
-      m
+      print(m)
   })
   ###############Tab 4 starts here
   output$mytable = renderDataTable({
